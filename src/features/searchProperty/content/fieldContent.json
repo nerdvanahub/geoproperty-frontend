@@ -1,0 +1,74 @@
+{
+  "tipeIklan": [
+    {
+      "content": "dijual",
+      "value": "Jual"
+    },
+    {
+      "content": "disewa",
+      "value": "Sewa"
+    }
+  ],
+  "tipeProperti": [
+    {
+      "content": "apartement",
+      "value": "Apartement"
+    },
+    {
+      "content": "rumah",
+      "value": "Rumah"
+    },
+    {
+      "content": "tanah",
+      "value": "Tanah"
+    },
+    {
+      "content": "hotel",
+      "value": "Hotel"
+    }
+  ],
+  "kamarTidur": [
+    {
+      "content": "1",
+      "value": "1"
+    },
+    {
+      "content": "2",
+      "value": "2"
+    },
+    {
+      "content": "3",
+      "value": "3"
+    },
+    {
+      "content": "4",
+      "value": "4"
+    },
+    {
+      "content": "5",
+      "value": "5"
+    }
+  ],
+  "kamarMandi": [
+    {
+      "content": "1",
+      "value": "1"
+    },
+    {
+      "content": "2",
+      "value": "2"
+    },
+    {
+      "content": "3",
+      "value": "3"
+    },
+    {
+      "content": "4",
+      "value": "4"
+    },
+    {
+      "content": "5",
+      "value": "5"
+    }
+  ]
+}
