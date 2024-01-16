@@ -47,7 +47,6 @@ interface FilterPropertyProps {
 
 const FilterProperty: FC<FilterPropertyProps> = ({ setListProperty }) => {
   const [resetRadio, setResetRadio] = useState<boolean | undefined>();
-  const [formInput, setFormInput] = useState<string | undefined>();
   useParams();
   const toast = useToast();
   const [params] = useSearchParams();
@@ -124,61 +123,10 @@ const FilterProperty: FC<FilterPropertyProps> = ({ setListProperty }) => {
       }
     },
   });
-  // const mutateFilterWithAIProperty = useMutation({
-  //     mutationFn: (prompt: string) =>
-  //         searchService.searchPropertyByPrompt(prompt),
-  //     onSuccess: (data) => {
-  //         if (!map) return;
 
-  //         const geoJsonSource = map.getSource(
-  //             sourceName.resultProperty
-  //         ) as GeoJSONSource;
-  //         if (geoJsonSource) {
-  //             geoJsonSource.setData(data as any);
-  //             const tmpData: Property[] = [];
-  //             data?.features.forEach((item) => {
-  //                 tmpData.push({
-  //                     id: item.properties.id,
-  //                     uuid: item.properties.uuid,
-  //                     user_id: item.properties.user_id,
-  //                     images: item.properties.images,
-  //                     title_ads: item.properties.title_ads,
-  //                     type_ads: item.properties.type_ads,
-  //                     type_property: item.properties.type_property,
-  //                     address: item.properties.address,
-  //                     condition: item.properties.condition,
-  //                     description: item.properties.description,
-  //                     price: item.properties.price,
-  //                     rent_type: item.properties.rent_type,
-  //                     building_type: item.properties.building_type,
-  //                     surface_area: item.properties.surface_area,
-  //                     building_area: item.properties.building_area,
-  //                     bath_rooms: item.properties.bath_rooms,
-  //                     bed_rooms: item.properties.bed_rooms,
-  //                     floors: item.properties.floors,
-  //                     park_area: item.properties.park_area,
-  //                     furniture: item.properties.furniture,
-  //                     electrical_power: item.properties.electrical_power,
-  //                     oriented: item.properties.oriented,
-  //                     certificate: item.properties.certificate,
-  //                     facility_in_door: item.properties.facility_in_door,
-  //                     facility_out_door: item.properties.facility_out_door,
-  //                     full_name: item.properties.full_name,
-  //                     email: item.properties.email,
-  //                     phone_number: item.properties.phone_number,
-  //                     center_point: item.properties.center_point,
-  //                     kelurahan: item.properties.kelurahan,
-  //                     kecamatan: item.properties.kecamatan,
-  //                     city: item.properties.city,
-  //                     geometry: item.properties.geometry,
-  //                     user: item.properties.user,
-  //                 });
-  //             });
-  //             setListProperty(tmpData);
-  //             return;
-  //         }
-  //     },
-  // });
+  const [prompt, setPrompt] = useState<string | null>(
+    params.get("prompt") || null
+  );
 
   const onSubmit = (data: IFilterForm) => {
     if (!map) return;
@@ -224,25 +172,9 @@ const FilterProperty: FC<FilterPropertyProps> = ({ setListProperty }) => {
     mutateFilterProperty.mutate(coordinate);
   };
 
-  // const fetchPropertyWithAI = async (prompt: string) => {
-  //     const data = await searchService.searchPropertyByPrompt(prompt)
-  //     console.log(data.features);
-
-  // }
-  // const onAiChange = async (prompt: string) => {
-  //     mutateFilterProperty.mutate(prompt)
-  //     const data = await searchService.searchPropertyByPrompt(prompt)
-  //     console.log(data2);
-  // }
-
-  function handleChange(e: { target: { name: any; value: any } }) {
-    const { name, value } = e.target;
-
-    setFormInput({
-      ...(formInput as any),
-      [name]: value,
-    });
-  }
+  const setPromptAi = (e: { target: { name: any; value: any } }) => {
+    setPrompt(e.target.value);
+  };
 
   const resetFilter = () => {
     if (!map) return;
@@ -287,7 +219,6 @@ const FilterProperty: FC<FilterPropertyProps> = ({ setListProperty }) => {
       setIsChecked(false);
       localStorage.setItem("isAiChecked", "");
     }
-    // console.log(isChecked);
   };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -336,14 +267,15 @@ const FilterProperty: FC<FilterPropertyProps> = ({ setListProperty }) => {
               pointerEvents="none"
               children={<BsStars />}
               margin={1}
+              marginRight={-1}
             ></InputRightElement>
             <Input
-              placeholder="Carikan saya rumah menghadap utara dengan dibawah harga 150 juta"
-              onChange={handleChange}
+              placeholder="Carikan saya rumah harga 150 juta"
+              onChange={setPromptAi as any}
               name="search_input"
               padding={6}
-              fontSize={["md", "lg"]}
-              value={params.get("prompt") as any}
+              fontSize={["md"]}
+              value={prompt || ""}
             />
           </InputGroup>
           <Button
@@ -351,7 +283,7 @@ const FilterProperty: FC<FilterPropertyProps> = ({ setListProperty }) => {
             size="lg"
             type="submit"
             onClick={() => {
-              fetchPropertyWithAI(params.get("prompt"));
+              fetchPropertyWithAI(prompt);
             }}
           >
             Cari properti
