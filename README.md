@@ -18,7 +18,7 @@ In recent years, the property industry has faced complex challenges related to l
    ```shell
    npm install pnpm -g
    ```
-   for more instruction, visit [this link](https://pnpm.io/installation)
+   for more information about pnpm, visit [this link](https://pnpm.io/installation)
 4. Then, run this command to install all dependencies
    ```shell
    pnpm install
