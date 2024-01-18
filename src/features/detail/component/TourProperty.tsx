@@ -1,9 +1,7 @@
 import {
     Box,
     Button,
-    HStack,
     Heading,
-    Icon,
     Image,
     Modal,
     ModalBody,
@@ -21,13 +19,15 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { Link } from 'react-router-dom';
-
+import Panorama from './Panorama';
+import panorama from '../../../assets/panorama/panorama_1.jpg'
+import { ArrowType } from '../types/TourType';
 export interface TourPropertyProps { }
 
 const TourProperty: FC<TourPropertyProps> = () => {
-    const { isOpen, onOpen, onClose } = useDisclosure()
-    const SampleNextArrow = (props: any) => {
-        const { className, style, onClick } = props;
+    const { isOpen, onOpen, onClose } = useDisclosure();
+
+    const SampleNextArrow = ({ className, style, onClick }: ArrowType) => {
         return (
             <div
                 className={className}
@@ -37,8 +37,7 @@ const TourProperty: FC<TourPropertyProps> = () => {
         );
     }
 
-    const SamplePrevArrow = (props: any) => {
-        const { className, style, onClick } = props;
+    const SamplePrevArrow = ({ className, style, onClick }: ArrowType) => {
         return (
             <div
                 className={className}
@@ -76,6 +75,7 @@ const TourProperty: FC<TourPropertyProps> = () => {
             }
         ]
     };
+
     return (
         <VStack w="full" alignItems="flex-start">
             <Heading w="full" size="lg">
@@ -94,7 +94,7 @@ const TourProperty: FC<TourPropertyProps> = () => {
                     top="0"
                     left="0"
                     _after={{
-                        background: "rgba(0, 0, 0, 0.50) ",
+                        background: "rgba(0, 0, 0, 0.80) ",
                         width: "100%",
                         height: "100%",
                         position: "absolute",
@@ -105,18 +105,21 @@ const TourProperty: FC<TourPropertyProps> = () => {
                         alignContent: "center"
                     }}
                 >
-                    <Image borderRadius="20px" src="https://images.unsplash.com/photo-1704996440137-44a1eb3c71ee?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"></Image>
+                    <Image borderRadius="20px" src={panorama}></Image>
                     <Box
                         color="white"
                         position="absolute"
                         zIndex="20"
                         top="40%"
-                        right="35%"
+                        right="34%"
+                        _after={{
+                            transform: "translate(-50%, -50%)",
+                        }}
                     >
-                        <Tb360View size="120px" />
-                        <Button onClick={onOpen}>Mulai Jelajahi Tur Panorama</Button>
+                        <Tb360View size="100px" />
+                        <Button onClick={onOpen} right="25%">Mulai Jelajahi Tur Panorama</Button>
                     </Box>
-                    <Modal size="full" onClose={onClose} isOpen={isOpen} bg="black">
+                    <Modal size="full" onClose={onClose} isOpen={isOpen}>
                         <ModalOverlay />
                         <ModalContent>
                             <ModalHeader>
@@ -128,26 +131,21 @@ const TourProperty: FC<TourPropertyProps> = () => {
                                 </Link>
                             </ModalHeader>
                             <ModalBody>
-                                <Image borderRadius="20px" objectFit="cover" height="790" width="900" margin="auto" src="https://images.unsplash.com/photo-1704996440137-44a1eb3c71ee?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"></Image>
-                                <Box mt="5" maxWidth="800" mx="auto" >
+                                <Panorama source={panorama}></Panorama>
+                                {/* <Image borderRadius="20px" objectFit="cover" height="700" width="100%" margin="auto" src={panorama}></Image> */}
+                                <Box mt="5" maxWidth="700" mx="auto" >
                                     <Slider {...settings}>
                                         <Box>
-                                            <Image borderRadius="20px" objectFit="cover" height="40" width="40" margin="auto" src="https://images.unsplash.com/photo-1704996440137-44a1eb3c71ee?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"></Image>
+                                            <Image borderRadius="20px" objectFit="cover" height="40" width="40" margin="auto" src={panorama}></Image>
                                         </Box>
                                         <Box>
-                                            <Image borderRadius="20px" objectFit="cover" height="40" width="40" margin="auto" src="https://images.unsplash.com/photo-1704996440137-44a1eb3c71ee?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"></Image>
+                                            <Image borderRadius="20px" objectFit="cover" height="40" width="40" margin="auto" src={panorama}></Image>
                                         </Box>
                                         <Box>
-                                            <Image borderRadius="20px" objectFit="cover" height="40" width="40" margin="auto" src="https://images.unsplash.com/photo-1704996440137-44a1eb3c71ee?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"></Image>
+                                            <Image borderRadius="20px" objectFit="cover" height="40" width="40" margin="auto" src={panorama}></Image>
                                         </Box>
                                         <Box>
-                                            <Image borderRadius="20px" objectFit="cover" height="40" width="40" margin="auto" src="https://images.unsplash.com/photo-1704996440137-44a1eb3c71ee?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"></Image>
-                                        </Box>
-                                        <Box>
-                                            <Image borderRadius="20px" objectFit="cover" height="40" width="40" margin="auto" src="https://images.unsplash.com/photo-1704996440137-44a1eb3c71ee?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"></Image>
-                                        </Box>
-                                        <Box>
-                                            <Image borderRadius="20px" objectFit="cover" height="40" width="40" margin="auto" src="https://images.unsplash.com/photo-1704996440137-44a1eb3c71ee?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"></Image>
+                                            <Image borderRadius="20px" objectFit="cover" height="40" width="40" margin="auto" src={panorama}></Image>
                                         </Box>
                                     </Slider>
                                 </Box>
