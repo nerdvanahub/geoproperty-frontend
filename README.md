@@ -5,8 +5,8 @@ In recent years, the property industry has faced complex challenges related to l
 
 ## Tech Stack behind
 <div style="display:flex">
-   <img src="https://github.com/nerdvanahub/geoproperty-frontend/assets/139702000/24ed4cfe-43d1-433a-9ef4-b0657952912e" alt="drawing" style="width:150px;"/> 
-<img src="https://github.com/nerdvanahub/geoproperty-frontend/assets/139702000/196af244-901f-4345-be81-a98da3a1c738" alt="drawing" style="width:150px;"/>  
+   <img src="https://github.com/nerdvanahub/geoproperty-frontend/assets/139702000/24ed4cfe-43d1-433a-9ef4-b0657952912e" alt="drawing" style="width:120px;"/> 
+<img src="https://github.com/nerdvanahub/geoproperty-frontend/assets/139702000/196af244-901f-4345-be81-a98da3a1c738" alt="drawing" style="width:120px;"/>  
 </div>
 
 
