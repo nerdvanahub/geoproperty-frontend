@@ -1,23 +1,22 @@
 # Geoproperty Frontend
 ![image](https://github.com/nerdvanahub/geoproperty-frontend/assets/139702000/a84ebfe6-7b08-41cf-b76c-61edb850b117)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+In recent years, the property industry has faced complex challenges related to land management and development. One of the main problems that has emerged is the lack of spatial information, which can hinder effective decision-making. The management of property data that is scattered and often not well-integrated can make it difficult to analyze and plan strategically. Therefore, the implementation of Geographic Information Systems (GIS) has become a solution that is increasingly gaining attention. The use of GIS in property applications allows for the integration of comprehensive spatial data, enabling stakeholders to visualize and analyze property data more efficiently. As such, GIS is key to addressing complex property-related issues, helping to improve land management efficiency, and supporting better decision-making within the industry.
 
-## Expanding the ESLint configuration
+## First Time
+1. Clone this repository
+2. Install all dependency needed, but first install pnpm
+   ```shell
+   npm install pnpm -g
+   ```
+   for more instruction, visit [this link](https://pnpm.io/installation)
+4. then, run this command to install all dependencies
+   ```shell
+   pnpm install
+   ```
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
+Run locally with
+```shell
+pnpm run dev
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
