@@ -35,7 +35,7 @@ const useUserStore = create<User & UserAction & { hasLogin: boolean }>()(
             email: '',
             name: '',
             exp: 0,
-          },
+        },
         }),
     }),
     {
