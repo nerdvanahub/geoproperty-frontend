@@ -13,21 +13,22 @@ import {
   Switch,
   VStack,
   useToast,
-} from "@chakra-ui/react";
-import { useMutation } from "@tanstack/react-query";
-import { GeoJSONSource } from "mapbox-gl";
-import { FC, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { FaMapMarkerAlt, FaSearch } from "react-icons/fa";
-import { CustomSelect } from "../../../components";
-import { layerName, sourceName } from "../../../config/constants/constants";
-import useMapStore from "../../map/store/useMapStore";
-import fieldContent from "../content/fieldContent.json";
-import searchService from "../service/searchService";
-import RadioInput from "./RadioInput";
-import { Property } from "../../../types/propertyType";
-import { BsStars } from "react-icons/bs";
-import { useParams, useSearchParams } from "react-router-dom";
+} from '@chakra-ui/react';
+import { useMutation } from '@tanstack/react-query';
+import { GeoJSONSource } from 'mapbox-gl';
+import { FC, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { BsStars } from 'react-icons/bs';
+import { FaMapMarkerAlt, FaSearch } from 'react-icons/fa';
+import { useParams, useSearchParams } from 'react-router-dom';
+import { CustomSelect } from '../../../components';
+import { layerName, sourceName } from '../../../config/constants/constants';
+import { Property } from '../../../types/propertyType';
+import debounce from '../../../utils/debounce';
+import useMapStore from '../../map/store/useMapStore';
+import fieldContent from '../content/fieldContent.json';
+import searchService from '../service/searchService';
+import RadioInput from './RadioInput';
 
 interface IFilterForm {
   address: string;
@@ -52,9 +53,9 @@ const FilterProperty: FC<FilterPropertyProps> = ({ setListProperty }) => {
   const [params] = useSearchParams();
   const { handleSubmit, register, control, reset } = useForm<IFilterForm>({
     defaultValues: {
-      address: "",
-      tipeIklan: "",
-      tipeProperti: "",
+      address: '',
+      tipeIklan: '',
+      tipeProperti: '',
       luasBangunanMin: undefined,
       luasBangunanMax: undefined,
       luasTanahMin: undefined,
@@ -65,7 +66,7 @@ const FilterProperty: FC<FilterPropertyProps> = ({ setListProperty }) => {
   });
   const map = useMapStore((state) => state.map);
   const [isChecked, setIsChecked] = useState(
-    Boolean(localStorage.getItem("isAiChecked"))
+    Boolean(localStorage.getItem('isAiChecked'))
   );
 
   const mutateFilterProperty = useMutation({
@@ -125,37 +126,37 @@ const FilterProperty: FC<FilterPropertyProps> = ({ setListProperty }) => {
   });
 
   const [prompt, setPrompt] = useState<string | null>(
-    params.get("prompt") || null
+    params.get('prompt') || null
   );
 
   const onSubmit = (data: IFilterForm) => {
     if (!map) return;
 
     const operator = [
-      "all",
-      data.tipeIklan ? ["==", ["get", "type_ads"], data.tipeIklan] : true,
+      'all',
+      data.tipeIklan ? ['==', ['get', 'type_ads'], data.tipeIklan] : true,
       data.tipeProperti
-        ? ["==", ["get", "type_property"], data.tipeProperti]
+        ? ['==', ['get', 'type_property'], data.tipeProperti]
         : true,
-      String(data.luasBangunanMin) !== "" && String(data.luasBangunanMax) !== ""
+      String(data.luasBangunanMin) !== '' && String(data.luasBangunanMax) !== ''
         ? [
-            "all",
-            ["<=", ["get", "building_area"], Number(data.luasBangunanMax)],
-            [">=", ["get", "building_area"], Number(data.luasBangunanMin)],
+            'all',
+            ['<=', ['get', 'building_area'], Number(data.luasBangunanMax)],
+            ['>=', ['get', 'building_area'], Number(data.luasBangunanMin)],
           ]
         : true,
-      String(data.luasTanahMin) !== "" && String(data.luasTanahMax) !== ""
+      String(data.luasTanahMin) !== '' && String(data.luasTanahMax) !== ''
         ? [
-            "all",
-            ["<=", ["get", "building_area"], Number(data.luasTanahMax)],
-            [">=", ["get", "building_area"], Number(data.luasTanahMin)],
+            'all',
+            ['<=', ['get', 'building_area'], Number(data.luasTanahMax)],
+            ['>=', ['get', 'building_area'], Number(data.luasTanahMin)],
           ]
         : true,
       data.kamarTidur
-        ? [">=", ["get", "bed_rooms"], Number(data.kamarTidur)]
+        ? ['>=', ['get', 'bed_rooms'], Number(data.kamarTidur)]
         : true,
       data.kamarMandi
-        ? [">=", ["get", "bath_rooms"], Number(data.kamarMandi)]
+        ? ['>=', ['get', 'bath_rooms'], Number(data.kamarMandi)]
         : true,
     ];
 
@@ -179,9 +180,9 @@ const FilterProperty: FC<FilterPropertyProps> = ({ setListProperty }) => {
   const resetFilter = () => {
     if (!map) return;
     reset({
-      address: "",
-      tipeIklan: "",
-      tipeProperti: "",
+      address: '',
+      tipeIklan: '',
+      tipeProperti: '',
       luasBangunanMin: undefined,
       luasBangunanMax: undefined,
       luasTanahMin: undefined,
@@ -194,36 +195,34 @@ const FilterProperty: FC<FilterPropertyProps> = ({ setListProperty }) => {
   };
 
   const loadOptions = (inputValue: string) => {
-    return new Promise((resolve) => {
-      const result = searchService.searchProperty(inputValue).then((res) => {
-        return res.data?.map((item) => ({
-          label: item.name,
-          value: item.center_point,
-        }));
-      });
-      resolve(result);
+    const result = searchService.searchProperty(inputValue).then((res) => {
+      return res.data?.map((item) => ({
+        label: item.name,
+        value: item.center_point,
+      }));
     });
+    return result;
   };
   const switchAiMode = (e: any) => {
     if (e.target.checked) {
       setIsChecked(true);
-      localStorage.setItem("isAiChecked", "true");
+      localStorage.setItem('isAiChecked', 'true');
       toast({
-        title: "GeoRobot Aktif",
-        description: "Pencarian properti dengan Georobot telah aktif ",
-        status: "info",
+        title: 'GeoRobot Aktif',
+        description: 'Pencarian properti dengan Georobot telah aktif ',
+        status: 'info',
         duration: 1200,
-        position: "bottom-right",
+        position: 'bottom-right',
       });
     } else {
       setIsChecked(false);
-      localStorage.setItem("isAiChecked", "");
+      localStorage.setItem('isAiChecked', '');
     }
   };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const fetchPropertyWithAI = (_arg0: string | null) => {
-    throw new Error("Function not implemented.");
+    throw new Error('Function not implemented.');
   };
 
   return (
@@ -274,8 +273,8 @@ const FilterProperty: FC<FilterPropertyProps> = ({ setListProperty }) => {
               onChange={setPromptAi as any}
               name="search_input"
               padding={6}
-              fontSize={["md"]}
-              value={prompt || ""}
+              fontSize={['md']}
+              value={prompt || ''}
             />
           </InputGroup>
           <Button
@@ -299,7 +298,7 @@ const FilterProperty: FC<FilterPropertyProps> = ({ setListProperty }) => {
           }}
           optionsIcon={FaMapMarkerAlt}
           dropdownIndicator={FaSearch}
-          loadOptions={loadOptions}
+          loadOptions={debounce(loadOptions, 500)}
         />
       )}
       <Divider />
@@ -340,15 +339,15 @@ const FilterProperty: FC<FilterPropertyProps> = ({ setListProperty }) => {
       <FormControl>
         <FormLabel>Luas Bangunan (m2)</FormLabel>
         <HStack gap={4}>
-          <Input {...register("luasBangunanMin")} type="number" />
-          <Input {...register("luasBangunanMax")} type="number" />
+          <Input {...register('luasBangunanMin')} type="number" />
+          <Input {...register('luasBangunanMax')} type="number" />
         </HStack>
       </FormControl>
       <FormControl>
         <FormLabel>Luas Tanah (m2)</FormLabel>
         <HStack gap={4}>
-          <Input {...register("luasTanahMin")} type="number" />
-          <Input {...register("luasTanahMax")} type="number" />
+          <Input {...register('luasTanahMin')} type="number" />
+          <Input {...register('luasTanahMax')} type="number" />
         </HStack>
       </FormControl>
       <FormControl>
