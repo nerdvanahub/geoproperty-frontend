@@ -50,7 +50,7 @@ const FilterProperty: FC<FilterPropertyProps> = ({ setListProperty }) => {
   const [resetRadio, setResetRadio] = useState<boolean | undefined>();
   useParams();
   const toast = useToast();
-  const [params] = useSearchParams();
+  const [params, setSearchParams] = useSearchParams();
   const { handleSubmit, register, control, reset } = useForm<IFilterForm>({
     defaultValues: {
       address: '',
@@ -166,6 +166,7 @@ const FilterProperty: FC<FilterPropertyProps> = ({ setListProperty }) => {
   const onChange = (coordinate: string | number[] | undefined) => {
     if (!map) return;
     if (!Array.isArray(coordinate)) return;
+    setSearchParams({ lat: String(coordinate[0]), lng: String(coordinate[1]) });
     map.flyTo({
       center: [coordinate[0], coordinate[1]],
       zoom: 15,

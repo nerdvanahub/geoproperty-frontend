@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button, Grid, GridItem } from "@chakra-ui/react";
-import { FC, useEffect, useState } from "react";
-import { FaListUl, FaMapMarkerAlt } from "react-icons/fa";
-import { useSearchParams } from "react-router-dom";
-import Map from "../features/map";
-import useOnLoadMap from "../features/map/hooks/useOnLoadMap";
-import FilterProperty from "../features/searchProperty/component/FilterProperty";
-import ListProperty from "../features/searchProperty/component/ListProperty";
-import useSearchProperty from "../features/searchProperty/hooks/useSearchProperty";
-import { Property } from "../types/propertyType";
+import { Button, Grid, GridItem } from '@chakra-ui/react';
+import { FC, useEffect, useState } from 'react';
+import { FaListUl, FaMapMarkerAlt } from 'react-icons/fa';
+import { useSearchParams } from 'react-router-dom';
+import Map from '../features/map';
+import useOnLoadMap from '../features/map/hooks/useOnLoadMap';
+import FilterProperty from '../features/searchProperty/component/FilterProperty';
+import ListProperty from '../features/searchProperty/component/ListProperty';
+import useSearchProperty from '../features/searchProperty/hooks/useSearchProperty';
+import { Property } from '../types/propertyType';
 
 interface SearchPageProps {}
 
@@ -16,8 +16,8 @@ const SearchPage: FC<SearchPageProps> = () => {
   const [toggleMap, setToggleMap] = useState(true);
   const { data } = useSearchProperty();
   const [params] = useSearchParams();
-  const lat = params.get("lat");
-  const lng = params.get("lng");
+  const lat = params.get('lat');
+  const lng = params.get('lng');
 
   useOnLoadMap({ data, lat: lat!, lng: lng! });
 
@@ -87,7 +87,7 @@ const SearchPage: FC<SearchPageProps> = () => {
           bg="black"
           color="white"
           _hover={{
-            bg: "gray.800",
+            bg: 'gray.800',
           }}
           position="fixed"
           right="2%"
@@ -99,7 +99,7 @@ const SearchPage: FC<SearchPageProps> = () => {
             setToggleMap(!toggleMap);
           }}
         >
-          {toggleMap ? "List Property" : "Map Property"}
+          {toggleMap ? 'List Property' : 'Map Property'}
         </Button>
         <Map hidden={!toggleMap} />
         <ListProperty hidden={toggleMap} data={listProperty} />
