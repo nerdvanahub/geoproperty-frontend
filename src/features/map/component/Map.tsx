@@ -4,7 +4,6 @@ import { FC, useCallback, useRef } from 'react';
 import useMapStore from '../store/useMapStore';
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_KEY as string;
-console.log(import.meta.env.MAPBOX_KEY);
 
 interface MapProps {
   hidden?: boolean;

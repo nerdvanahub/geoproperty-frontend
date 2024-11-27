@@ -1,10 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Grid, GridItem } from '@chakra-ui/react';
+import MapboxDraw from '@mapbox/mapbox-gl-draw';
+import * as turf from '@turf/turf';
 import { FC, useEffect, useState } from 'react';
 import { FaListUl, FaMapMarkerAlt } from 'react-icons/fa';
 import { useSearchParams } from 'react-router-dom';
 import Map from '../features/map';
 import useOnLoadMap from '../features/map/hooks/useOnLoadMap';
+import useMapStore from '../features/map/store/useMapStore';
 import FilterProperty from '../features/searchProperty/component/FilterProperty';
 import ListProperty from '../features/searchProperty/component/ListProperty';
 import useSearchProperty from '../features/searchProperty/hooks/useSearchProperty';
@@ -15,7 +18,8 @@ interface SearchPageProps {}
 const SearchPage: FC<SearchPageProps> = () => {
   const [toggleMap, setToggleMap] = useState(true);
   const { data } = useSearchProperty();
-  const [params] = useSearchParams();
+  const [params, setParams] = useSearchParams();
+  const map = useMapStore((state) => state.map);
   const lat = params.get('lat');
   const lng = params.get('lng');
 
@@ -66,6 +70,50 @@ const SearchPage: FC<SearchPageProps> = () => {
     });
     setListProperty(tmpData);
   }, [data]);
+
+  useEffect(() => {
+    if (!map) return;
+    const draw = new MapboxDraw({
+      displayControlsDefault: false,
+      controls: {
+        polygon: true,
+        trash: true,
+      },
+      defaultMode: 'draw_polygon',
+    });
+
+    map.on('load', () => {
+      map.addControl(draw);
+    });
+
+    // TODO: send geom to server
+
+    const calculateArea = () => {
+      const data = draw.getAll();
+      if (data.features.length > 0) {
+        const area = turf.area(data);
+        const rounded_area = Math.round(area * 100) / 100; // m2
+        console.log(rounded_area);
+        for (const feature of data.features) {
+          if (feature.geometry.type === 'Polygon') {
+            const geom = feature.geometry.coordinates;
+            const poly = turf.polygon(geom);
+            const center = turf.centroid(poly);
+            setParams({
+              lat: center.geometry.coordinates[0].toString(),
+              lng: center.geometry.coordinates[1].toString(),
+            });
+          }
+        }
+      }
+    };
+
+    map.on('draw.create', calculateArea);
+
+    map.on('draw.update', calculateArea);
+
+    map.on('draw.delete', calculateArea);
+  }, [map]);
 
   return (
     <Grid templateColumns="repeat(12, 1fr)" h="full" w="full" as="main">
