@@ -44,7 +44,7 @@ class SearchService {
     location: number[][]
   ): Promise<ResponseGeoJsonType> {
     const response = await this.axiosIntance.post<ResponseGeoJsonType>(
-      `/property/area`,
+      `/property/polygon`,
       {
         polygon: location,
       }
