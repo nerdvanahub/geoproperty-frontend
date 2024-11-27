@@ -1,17 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button, Grid, GridItem } from '@chakra-ui/react';
-import MapboxDraw from '@mapbox/mapbox-gl-draw';
-import * as turf from '@turf/turf';
-import { FC, useEffect, useState } from 'react';
-import { FaListUl, FaMapMarkerAlt } from 'react-icons/fa';
-import { useSearchParams } from 'react-router-dom';
-import Map from '../features/map';
-import useOnLoadMap from '../features/map/hooks/useOnLoadMap';
-import useMapStore from '../features/map/store/useMapStore';
-import FilterProperty from '../features/searchProperty/component/FilterProperty';
-import ListProperty from '../features/searchProperty/component/ListProperty';
-import useSearchProperty from '../features/searchProperty/hooks/useSearchProperty';
-import { Property } from '../types/propertyType';
+import { Button, Grid, GridItem } from "@chakra-ui/react";
+import MapboxDraw from "@mapbox/mapbox-gl-draw";
+import * as turf from "@turf/turf";
+import { FC, useEffect, useState } from "react";
+import { FaListUl, FaMapMarkerAlt } from "react-icons/fa";
+import { useSearchParams } from "react-router-dom";
+import Map from "../features/map";
+import useOnLoadMap from "../features/map/hooks/useOnLoadMap";
+import useMapStore from "../features/map/store/useMapStore";
+import FilterProperty from "../features/searchProperty/component/FilterProperty";
+import ListProperty from "../features/searchProperty/component/ListProperty";
+import useSearchProperty from "../features/searchProperty/hooks/useSearchProperty";
+import { Property } from "../types/propertyType";
 
 interface SearchPageProps {}
 
@@ -20,8 +20,8 @@ const SearchPage: FC<SearchPageProps> = () => {
   const { data } = useSearchProperty();
   const [params, setParams] = useSearchParams();
   const map = useMapStore((state) => state.map);
-  const lat = params.get('lat');
-  const lng = params.get('lng');
+  const lat = params.get("lat");
+  const lng = params.get("lng");
 
   useOnLoadMap({ data, lat: lat!, lng: lng! });
 
@@ -79,10 +79,9 @@ const SearchPage: FC<SearchPageProps> = () => {
         polygon: true,
         trash: true,
       },
-      defaultMode: 'draw_polygon',
     });
 
-    map.on('load', () => {
+    map.on("load", () => {
       map.addControl(draw);
     });
 
@@ -95,10 +94,12 @@ const SearchPage: FC<SearchPageProps> = () => {
         const rounded_area = Math.round(area * 100) / 100; // m2
         console.log(rounded_area);
         for (const feature of data.features) {
-          if (feature.geometry.type === 'Polygon') {
+          if (feature.geometry.type === "Polygon") {
             const geom = feature.geometry.coordinates;
             const poly = turf.polygon(geom);
             const center = turf.centroid(poly);
+            console.log(geom);
+
             setParams({
               lat: center.geometry.coordinates[0].toString(),
               lng: center.geometry.coordinates[1].toString(),
@@ -108,11 +109,11 @@ const SearchPage: FC<SearchPageProps> = () => {
       }
     };
 
-    map.on('draw.create', calculateArea);
+    map.on("draw.create", calculateArea);
 
-    map.on('draw.update', calculateArea);
+    map.on("draw.update", calculateArea);
 
-    map.on('draw.delete', calculateArea);
+    map.on("draw.delete", calculateArea);
   }, [map]);
 
   return (
@@ -135,7 +136,7 @@ const SearchPage: FC<SearchPageProps> = () => {
           bg="black"
           color="white"
           _hover={{
-            bg: 'gray.800',
+            bg: "gray.800",
           }}
           position="fixed"
           right="2%"
@@ -147,7 +148,7 @@ const SearchPage: FC<SearchPageProps> = () => {
             setToggleMap(!toggleMap);
           }}
         >
-          {toggleMap ? 'List Property' : 'Map Property'}
+          {toggleMap ? "List Property" : "Map Property"}
         </Button>
         <Map hidden={!toggleMap} />
         <ListProperty hidden={toggleMap} data={listProperty} />

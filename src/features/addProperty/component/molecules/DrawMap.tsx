@@ -1,10 +1,10 @@
-import { Box, HStack, Input, VStack } from '@chakra-ui/react';
-import MapboxDraw from '@mapbox/mapbox-gl-draw';
-import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
-import * as turf from '@turf/turf';
-import { FC, useEffect } from 'react';
-import Map from '../../../map';
-import useMapStore from '../../../map/store/useMapStore';
+import { Box, HStack, Input, VStack } from "@chakra-ui/react";
+import MapboxDraw from "@mapbox/mapbox-gl-draw";
+import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
+import * as turf from "@turf/turf";
+import { FC, useEffect } from "react";
+import Map from "../../../map";
+import useMapStore from "../../../map/store/useMapStore";
 
 interface DrawMapProps {}
 
@@ -24,10 +24,10 @@ const DrawMap: FC<DrawMapProps> = () => {
         polygon: true,
         trash: true,
       },
-      defaultMode: 'draw_polygon',
+      defaultMode: "draw_polygon",
     });
 
-    map.on('load', () => {
+    map.on("load", () => {
       map.addControl(draw);
     });
 
@@ -40,10 +40,11 @@ const DrawMap: FC<DrawMapProps> = () => {
         const rounded_area = Math.round(area * 100) / 100; // m2
         console.log(rounded_area);
         for (const feature of data.features) {
-          if (feature.geometry.type === 'Polygon') {
+          if (feature.geometry.type === "Polygon") {
             const geom = feature.geometry.coordinates;
             const poly = turf.polygon(geom);
             const center = turf.centroid(poly);
+            console.log(geom);
             setCentroid(
               center.geometry.coordinates as [number, number],
               geom as unknown as number[][][]
@@ -53,11 +54,11 @@ const DrawMap: FC<DrawMapProps> = () => {
       }
     };
 
-    map.on('draw.create', calculateArea);
+    map.on("draw.create", calculateArea);
 
-    map.on('draw.update', calculateArea);
+    map.on("draw.update", calculateArea);
 
-    map.on('draw.delete', calculateArea);
+    map.on("draw.delete", calculateArea);
   }, [map]);
 
   return (

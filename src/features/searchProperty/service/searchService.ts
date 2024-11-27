@@ -40,6 +40,18 @@ class SearchService {
 
     return response.data;
   }
+  public async searchPropertyByArea(
+    location: number[][]
+  ): Promise<ResponseGeoJsonType> {
+    const response = await this.axiosIntance.post<ResponseGeoJsonType>(
+      `/property/area`,
+      {
+        polygon: location,
+      }
+    );
+
+    return response.data;
+  }
 }
 
 const searchService = new SearchService();
