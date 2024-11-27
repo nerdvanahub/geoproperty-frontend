@@ -8,7 +8,7 @@ import {
   VStack,
   useToken,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useRef } from "react";
 import { FaGraduationCap, FaStore, FaTrain } from "react-icons/fa";
 import { GiHealthNormal } from "react-icons/gi";
 import { IoMdRestaurant } from "react-icons/io";
@@ -24,6 +24,8 @@ import useMapStore from "../../map/store/useMapStore";
 import usePoi from "../hooks/usePoi";
 import useDetailStore from "../store/useDetailStore";
 import * as turf from "@turf/turf";
+import mapboxGl from "mapbox-gl";
+import ReactDOM from "react-dom/client";
 
 interface POIPropertyProps {}
 
@@ -70,6 +72,10 @@ const POIProperty: React.FC<POIPropertyProps> = () => {
     Transport: IconTransport,
     Bank: IconBank,
   };
+  const popup = new mapboxGl.Popup({
+    closeButton: false,
+  });
+  const containerPopupRef = useRef<HTMLElement | null>(null);
 
   const [activeButton, setActiveButton] = React.useState<string | null>(null);
 
@@ -143,13 +149,45 @@ const POIProperty: React.FC<POIPropertyProps> = () => {
           data: data as any,
         });
 
+        map.on("mouseenter", layerName.poiLayer, (e) => {
+          containerPopupRef.current = document.createElement("div");
+          const { nama, jarak } = e.features![0].properties!;
+
+          ReactDOM.createRoot(containerPopupRef.current).render(
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                backgroundColor: "white",
+                padding: "10px",
+                borderRadius: "10px",
+                fontSize: "14px",
+              }}
+            >
+              <div>
+                {nama} - {(jarak / 1000).toFixed(2)} Km
+              </div>
+            </div>
+          );
+
+          map.on("mouseleave", layerName.poiLayer, () => {
+            containerPopupRef.current = null;
+            popup.remove();
+          });
+
+          popup
+            .setLngLat(e.lngLat)
+            .setDOMContent(containerPopupRef.current)
+            .addTo(map);
+        });
+
         map.addLayer({
           id: layerName.poiLayer,
           type: "symbol",
           source: sourceName.poi,
           layout: {
             "icon-image": ["get", "kategori"],
-            "icon-size": 0.5,
+            "icon-size": 0.7,
             "icon-allow-overlap": true,
           },
         });
