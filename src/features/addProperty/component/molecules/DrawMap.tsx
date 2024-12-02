@@ -44,7 +44,7 @@ const DrawMap: FC<DrawMapProps> = () => {
             const geom = feature.geometry.coordinates;
             const poly = turf.polygon(geom);
             const center = turf.centroid(poly);
-            console.log(geom);
+
             setCentroid(
               center.geometry.coordinates as [number, number],
               geom as unknown as number[][][]
