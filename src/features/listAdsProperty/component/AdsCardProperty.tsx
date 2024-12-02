@@ -6,19 +6,22 @@ import {
   Image,
   Text,
   VStack,
-} from "@chakra-ui/react";
-import React from "react";
-import { FaBath, FaPen, FaTrash } from "react-icons/fa";
-import { IoBed } from "react-icons/io5";
-import { CustomBadge } from "../../../components";
-import { Property } from "../../../types/propertyType";
-import formatCurrency from "../../../utils/formatCurrency";
+} from '@chakra-ui/react';
+import React from 'react';
+import { FaBath, FaPen, FaTrash } from 'react-icons/fa';
+import { IoBed } from 'react-icons/io5';
+import { CustomBadge } from '../../../components';
+import { Property } from '../../../types/propertyType';
+import formatCurrency from '../../../utils/formatCurrency';
+import useDeleteProperty from '../hooks/useDeleteProperty';
 
 interface AdsCardPropertyProps {
   data: Property;
 }
 
 const AdsCardProperty: React.FC<AdsCardPropertyProps> = ({ data }) => {
+  const { onDelete } = useDeleteProperty();
+
   return (
     <HStack
       h={190}
@@ -26,14 +29,14 @@ const AdsCardProperty: React.FC<AdsCardPropertyProps> = ({ data }) => {
       w="full"
       borderColor="gray.300"
       rounded="lg"
-      overflow={"hidden"}
+      overflow={'hidden'}
     >
       <Image
         src={`https://assets-geoproperty.nerdvana-hub.com/foto/${data.images[0].image}`}
         alt="ads"
-        w={"60%"}
+        w={'60%'}
         objectFit="cover"
-        h={"full"}
+        h={'full'}
       />
       <VStack w="full" h="full" alignItems="flex-start" p={4}>
         <HStack h="full" justifyContent="flex-start" alignItems="flex-start">
@@ -84,6 +87,7 @@ const AdsCardProperty: React.FC<AdsCardPropertyProps> = ({ data }) => {
           aria-label="Hapus"
           color="red.500"
           bg="red.50"
+          onClick={() => onDelete(data.uuid)}
         />
       </HStack>
     </HStack>
