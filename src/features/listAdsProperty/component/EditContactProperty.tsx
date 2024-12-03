@@ -2,12 +2,19 @@ import { Heading, Text, VStack } from '@chakra-ui/react';
 import React from 'react';
 import { Controller } from 'react-hook-form';
 import { CustomTextField } from '../../../components';
+import { Property } from '../../../types/propertyType';
 import useAddContactProperty from '../../addProperty/hooks/useAddContactProperty';
 
-interface EditContactPropertyProps {}
+interface EditContactPropertyProps {
+  property?: Property;
+}
 
-const EditContactProperty: React.FC<EditContactPropertyProps> = () => {
-  const { handleSubmit, onSubmit, control } = useAddContactProperty();
+const EditContactProperty: React.FC<EditContactPropertyProps> = ({
+  property,
+}) => {
+  const { handleSubmit, onSubmit, control } = useAddContactProperty({
+    defaultProperty: property,
+  });
   return (
     <VStack
       w="full"
@@ -37,6 +44,7 @@ const EditContactProperty: React.FC<EditContactPropertyProps> = () => {
             name={field.name}
             onChange={field.onChange}
             isInvalid={fieldState.invalid}
+            value={field.value}
           />
         )}
       />
@@ -52,6 +60,7 @@ const EditContactProperty: React.FC<EditContactPropertyProps> = () => {
             name={field.name}
             onChange={field.onChange}
             isInvalid={fieldState.invalid}
+            value={field.value}
           />
         )}
       />
@@ -74,6 +83,7 @@ const EditContactProperty: React.FC<EditContactPropertyProps> = () => {
             name={field.name}
             onChange={field.onChange}
             isInvalid={fieldState.invalid}
+            value={field.value}
           />
         )}
       />

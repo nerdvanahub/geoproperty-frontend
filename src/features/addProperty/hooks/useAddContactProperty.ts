@@ -1,14 +1,20 @@
-import { useMutation } from "@tanstack/react-query";
-import { useForm } from "react-hook-form";
-import useUserStore from "../../authentication/store/useUserStore";
-import addPropertyService from "../services/addPropertyService";
-import useAddPropertyStore from "../store/useAddPropertyStore";
-import usePhotoStore from "../store/usePhotosStore";
-import { TAddContactPropertyForm } from "../types/addPropertyFormType";
-import { IAddPropertyFieldRequest } from "../types/addPropertyResponse";
-import { useNavigate } from "react-router-dom";
+import { useMutation } from '@tanstack/react-query';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { Property } from '../../../types/propertyType';
+import useUserStore from '../../authentication/store/useUserStore';
+import addPropertyService from '../services/addPropertyService';
+import useAddPropertyStore from '../store/useAddPropertyStore';
+import usePhotoStore from '../store/usePhotosStore';
+import { TAddContactPropertyForm } from '../types/addPropertyFormType';
+import { IAddPropertyFieldRequest } from '../types/addPropertyResponse';
 
-const useAddContactProperty = () => {
+const useAddContactProperty = ({
+  defaultProperty,
+}: {
+  defaultProperty?: Property;
+}) => {
   const property = useAddPropertyStore((state) => state);
   const userId = useUserStore((state) => state.user.id);
   const images = usePhotoStore((state) => state.photos);
@@ -19,8 +25,8 @@ const useAddContactProperty = () => {
         photos: File[];
       }
     ) => addPropertyService.addProperty(data),
-    onSuccess: (data) => {
-      console.log(data);
+    onSuccess: () => {
+      navigate(`/search?lat=${property.latLng[0]}&lng=${property.latLng[1]}`);
     },
   });
 
@@ -33,14 +39,23 @@ const useAddContactProperty = () => {
     control,
     watch,
     formState: { errors },
+    reset,
   } = useForm<TAddContactPropertyForm>({
     defaultValues: {
-      email: "",
-      nama: "",
-      nomorHp: "",
+      email: '',
+      nama: '',
+      nomorHp: '',
     },
-    reValidateMode: "onBlur",
+    reValidateMode: 'onBlur',
   });
+
+  useEffect(() => {
+    reset({
+      email: defaultProperty?.email || '',
+      nama: defaultProperty?.full_name || '',
+      nomorHp: defaultProperty?.phone_number || '',
+    });
+  }, [defaultProperty]);
 
   const onSubmit = (data: TAddContactPropertyForm) => {
     setContactProperty({ ...data });
@@ -54,7 +69,7 @@ const useAddContactProperty = () => {
       description: property.deskirpsi,
       electrical_power: parseInt(property.dayaListrik),
       geometry: property.geometry,
-      furniture: property.tipeParabot === "tidak perabot" ? false : true,
+      furniture: property.tipeParabot === 'tidak perabot' ? false : true,
       center_point: property.latLng,
       facility_out_door: property.fasilitaLuarProperty,
       facility_in_door: property.fasilitasProperty,
@@ -74,8 +89,6 @@ const useAddContactProperty = () => {
       email: data.email,
       phone_number: data.nomorHp,
     });
-
-    navigate(`/search?lat=${property.latLng[0]}&lng=${property.latLng[1]}`);
   };
 
   return {

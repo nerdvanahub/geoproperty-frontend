@@ -9,7 +9,7 @@ import {
   InputLeftElement,
   InputRightElement,
 } from '@chakra-ui/react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FaMinus, FaPlus } from 'react-icons/fa';
 import { TBaseCustomInputType } from '../../types/customInputType';
 
@@ -37,6 +37,10 @@ const CustomNumberInput: React.FC<CustomNumberInputProps> = ({
     onChange && onChange(number.toString());
   }, [number, onChange]);
 
+  useEffect(() => {
+    setNumber(value);
+  }, [value]);
+
   return (
     <FormControl isInvalid={isInvalid}>
       <FormLabel>{label}</FormLabel>
@@ -61,7 +65,7 @@ const CustomNumberInput: React.FC<CustomNumberInputProps> = ({
         </InputLeftElement>
         <Input
           name={name}
-          value={number}
+          value={value || number}
           readOnly
           placeholder={placeholder}
           _disabled={{ borderColor: 'gray.200', cursor: 'not-allowed' }}

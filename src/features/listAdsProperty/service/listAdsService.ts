@@ -3,6 +3,7 @@ import axiosIntance from '../../../lib/axios';
 import {
   IPropertyListResponse,
   IPropertyResponse,
+  Property,
 } from '../../../types/propertyType';
 import useUserStore from '../../authentication/store/useUserStore';
 import { IPOIResponse } from '../../detail/types/poiType';
@@ -18,6 +19,23 @@ class ListAddsService {
     const response = await this.axiosIntance.post<IPropertyListResponse>(
       'property/own',
       {},
+      {
+        headers: {
+          Authorization: `Bearer ${this.token}`,
+        },
+      }
+    );
+
+    return response.data;
+  }
+
+  public async editAds(property: Property): Promise<IPropertyListResponse> {
+    const formData = new FormData();
+    formData.append('data', JSON.stringify(property));
+
+    const response = await this.axiosIntance.put<IPropertyListResponse>(
+      'property/own',
+      formData,
       {
         headers: {
           Authorization: `Bearer ${this.token}`,

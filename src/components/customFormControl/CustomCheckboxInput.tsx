@@ -10,7 +10,7 @@ import CustomCheckBox from '../customCheckbox/CustomCheckBox';
 
 interface CustomCheckboxInputProps
   extends Omit<TBaseCustomInputType, 'value' | 'onChange'> {
-  value?: string;
+  value?: string[];
   options: string[];
   onChange: (value: string[]) => void;
 }

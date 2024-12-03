@@ -1,9 +1,11 @@
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { Property } from '../../../types/propertyType';
 import useAddPropertyStore from '../store/useAddPropertyStore';
 import { TAddAboutPropertyForm } from '../types/addPropertyFormType';
 
-const useAddAboutProperty = () => {
+const useAddAboutProperty = ({ data }: { data?: Property }) => {
   const setAboutProperty = useAddPropertyStore(
     (state) => state.setAboutProperty
   );
@@ -12,9 +14,9 @@ const useAddAboutProperty = () => {
   const {
     handleSubmit,
     control,
-
     watch,
     formState: { errors, isSubmitting },
+    reset,
   } = useForm<TAddAboutPropertyForm>({
     defaultValues: {
       deskirpsi: '',
@@ -24,6 +26,16 @@ const useAddAboutProperty = () => {
       tipeProperti: '',
     },
   });
+
+  useEffect(() => {
+    reset({
+      deskirpsi: data?.description || '',
+      judulIklan: data?.title_ads || '',
+      kondisiProperti: data?.condition || '',
+      tipeIklan: data?.type_ads || '',
+      tipeProperti: data?.type_property || '',
+    });
+  }, [data]);
 
   const onSubmit = (data: TAddAboutPropertyForm) => {
     setAboutProperty({ ...data });

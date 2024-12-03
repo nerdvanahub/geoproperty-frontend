@@ -7,20 +7,22 @@ import EditContactProperty from '../features/listAdsProperty/component/EditConta
 import EditDetailProperty from '../features/listAdsProperty/component/EditDetailProperty';
 import EditImageAdsProperty from '../features/listAdsProperty/component/EditImageAdsProperty';
 import HeadingEdit from '../features/listAdsProperty/component/HeadingEdit';
+import useEditAdsProperty from '../features/listAdsProperty/hooks/useEditAdsProperty';
 
 interface EditAdsPropertyPageProps {}
 
 const EditAdsPropertyPage: React.FC<EditAdsPropertyPageProps> = () => {
   const [gray900] = useToken('colors', ['gray.900']);
   const [shadow] = useToken('shadows', ['md']);
+  const { data } = useEditAdsProperty();
   return (
     <VStack w="full" alignItems="flex-end" gap={8}>
       <HeadingEdit />
       <EditAddressProperty />
-      <CommonInformationProperty />
-      <EditDetailProperty />
+      <CommonInformationProperty property={data} />
+      <EditDetailProperty property={data} />
       <EditImageAdsProperty />
-      <EditContactProperty />
+      <EditContactProperty property={data} />
       <Button
         bg="gray.800"
         color="white"

@@ -11,7 +11,7 @@ import React from 'react';
 interface CustomCheckBoxProps {
   options: string[];
   onChange: (value: string[]) => void;
-  value?: string;
+  value?: string[];
 }
 
 const CheckBox = ({
@@ -50,9 +50,11 @@ const CheckBox = ({
 const CustomCheckBox: React.FC<CustomCheckBoxProps> = ({
   options,
   onChange,
+  value,
 }) => {
   const { getCheckboxProps } = useCheckboxGroup({
     onChange: onChange,
+    value: value,
   });
 
   return (

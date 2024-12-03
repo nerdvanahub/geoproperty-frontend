@@ -3,14 +3,19 @@ import React from 'react';
 import { Controller } from 'react-hook-form';
 import { CustomTextArea, CustomTextField } from '../../../components';
 import CustomSelectControl from '../../../components/customFormControl/CustomSelectControl';
+import { Property } from '../../../types/propertyType';
 import useAddAboutProperty from '../../addProperty/hooks/useAddAboutProperty';
 
-interface CommonInformationPropertyProps {}
+interface CommonInformationPropertyProps {
+  property?: Property;
+}
 
-const CommonInformationProperty: React.FC<
-  CommonInformationPropertyProps
-> = () => {
-  const { errors, handleSubmit, onSubmit, control } = useAddAboutProperty();
+const CommonInformationProperty: React.FC<CommonInformationPropertyProps> = ({
+  property,
+}) => {
+  const { errors, handleSubmit, onSubmit, control } = useAddAboutProperty({
+    data: property,
+  });
   return (
     <VStack
       w="full"
@@ -38,6 +43,7 @@ const CommonInformationProperty: React.FC<
             name={field.name}
             onChange={field.onChange}
             isInvalid={!!errors.judulIklan}
+            value={field.value}
           />
         )}
       />
@@ -52,6 +58,7 @@ const CommonInformationProperty: React.FC<
             isInvalid={!!errors.tipeIklan}
             placeholder="Pilih tipe iklan"
             onChange={field.onChange}
+            value={field.value}
             options={[
               {
                 label: 'Jual',
@@ -76,6 +83,7 @@ const CommonInformationProperty: React.FC<
             isInvalid={!!errors.kondisiProperti}
             placeholder="Pilih kondisi properti"
             onChange={field.onChange}
+            value={field.value}
             options={[
               {
                 label: 'Baru',
@@ -100,6 +108,7 @@ const CommonInformationProperty: React.FC<
             isInvalid={!!errors.kondisiProperti}
             placeholder="Pilih tipe properti"
             onChange={field.onChange}
+            value={field.value}
             options={[
               {
                 label: 'Rumah',
@@ -124,6 +133,7 @@ const CommonInformationProperty: React.FC<
             name={field.name}
             onChange={field.onChange}
             isInvalid={!!errors.judulIklan}
+            value={field.value}
           />
         )}
       />

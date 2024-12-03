@@ -10,6 +10,7 @@ import {
 import React from 'react';
 import { FaBath, FaPen, FaTrash } from 'react-icons/fa';
 import { IoBed } from 'react-icons/io5';
+import { Link } from 'react-router-dom';
 import { CustomBadge } from '../../../components';
 import { Property } from '../../../types/propertyType';
 import formatCurrency from '../../../utils/formatCurrency';
@@ -81,6 +82,8 @@ const AdsCardProperty: React.FC<AdsCardPropertyProps> = ({ data }) => {
           aria-label="Edit"
           color="blue.500"
           bg="blue.50"
+          as={Link}
+          to={`/account/list-ads/${data.uuid}`}
         />
         <IconButton
           icon={<FaTrash />}

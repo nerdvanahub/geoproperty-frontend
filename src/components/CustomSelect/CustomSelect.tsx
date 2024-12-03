@@ -27,6 +27,7 @@ const CustomSelect: FC<CustomSelectProps> = ({
   optionsIcon,
   loadOptions,
   dropdownIndicator = FaChevronDown,
+  value,
 }) => {
   return (
     <AsyncSelect
@@ -39,6 +40,7 @@ const CustomSelect: FC<CustomSelectProps> = ({
       options={options}
       name={name}
       isClearable
+      value={options?.find((option) => option.value === value)}
       chakraStyles={{
         input: (provided) => ({
           ...provided,

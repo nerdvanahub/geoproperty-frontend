@@ -39,6 +39,7 @@ const CommonInputProperty: React.FC<CommonInputPropertyProps> = ({
                 max={10}
                 isInvalid={formState.errors.kamarMandi?.message !== undefined}
                 errorMessage={formState.errors.kamarMandi?.message}
+                value={Number(field.value)}
               />
             );
           }}
@@ -59,6 +60,7 @@ const CommonInputProperty: React.FC<CommonInputPropertyProps> = ({
               onChange={field.onChange}
               isInvalid={formState.errors.kamarTidur && true}
               errorMessage={formState.errors?.kamarTidur?.message}
+              value={Number(field.value)}
             />
           )}
         />
@@ -78,6 +80,7 @@ const CommonInputProperty: React.FC<CommonInputPropertyProps> = ({
               onChange={field.onChange}
               isInvalid={formState.errors.jumlahLantai && true}
               errorMessage={formState.errors?.jumlahLantai?.message}
+              value={Number(field.value)}
             />
           )}
         />
@@ -97,6 +100,7 @@ const CommonInputProperty: React.FC<CommonInputPropertyProps> = ({
               onChange={field.onChange}
               isInvalid={formState.errors.lahanParkir && true}
               errorMessage={formState.errors?.lahanParkir?.message}
+              value={Number(field.value)}
             />
           )}
         />
@@ -114,6 +118,7 @@ const CommonInputProperty: React.FC<CommonInputPropertyProps> = ({
               placeholder="Pilih tipe perabot"
               onChange={field.onChange}
               errorMessage={formState.errors.tipeRumah?.message}
+              value={field.value}
               options={[
                 {
                   label: 'Tidak Perabot',
@@ -142,6 +147,7 @@ const CommonInputProperty: React.FC<CommonInputPropertyProps> = ({
               onChange={field.onChange}
               isInvalid={formState.errors.dayaListrik && true}
               errorMessage={formState.errors?.dayaListrik?.message}
+              value={field.value}
             />
           )}
         />
@@ -159,6 +165,7 @@ const CommonInputProperty: React.FC<CommonInputPropertyProps> = ({
               isInvalid={formState.errors.tipeRumah && true}
               onChange={field.onChange}
               errorMessage={formState.errors.tipeRumah?.message}
+              value={field.value}
               options={['Kichen Set', 'Gym', 'Wifi', 'ac', 'Tv kabel']}
             />
           )}
@@ -176,6 +183,7 @@ const CommonInputProperty: React.FC<CommonInputPropertyProps> = ({
               isInvalid={formState.errors.tipeRumah && true}
               onChange={field.onChange}
               errorMessage={formState.errors.tipeRumah?.message}
+              value={field.value}
               options={[
                 'Keamanan 24/7',
                 'Garasi',

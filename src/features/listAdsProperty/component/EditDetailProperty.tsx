@@ -3,13 +3,20 @@ import React from 'react';
 import { Controller } from 'react-hook-form';
 import { CustomTextField } from '../../../components';
 import CustomSelectControl from '../../../components/customFormControl/CustomSelectControl';
+import { Property } from '../../../types/propertyType';
 import CommonInputProperty from '../../addProperty/component/organisms/CommonInputProperty';
 import useAddDetailProperty from '../../addProperty/hooks/useAddDetailProperty';
 
-interface EditDetailPropertyProps {}
+interface EditDetailPropertyProps {
+  property?: Property;
+}
 
-const EditDetailProperty: React.FC<EditDetailPropertyProps> = () => {
-  const { control, errors, handleSubmit, onSubmit } = useAddDetailProperty();
+const EditDetailProperty: React.FC<EditDetailPropertyProps> = ({
+  property,
+}) => {
+  const { control, errors, handleSubmit, onSubmit } = useAddDetailProperty({
+    property,
+  });
   return (
     <VStack
       w="full"
@@ -48,6 +55,7 @@ const EditDetailProperty: React.FC<EditDetailPropertyProps> = () => {
                 onChange={field.onChange}
                 isInvalid={formState.errors.hargaJual && true}
                 errorMessage={errors?.hargaJual?.message}
+                value={field.value}
               />
             )}
           />
@@ -65,6 +73,7 @@ const EditDetailProperty: React.FC<EditDetailPropertyProps> = () => {
                 placeholder="Pilih tipe rumah"
                 onChange={field.onChange}
                 errorMessage={formState.errors.tipeRumah?.message}
+                value={field.value}
                 options={[
                   {
                     label: 'Cluster',
@@ -104,6 +113,7 @@ const EditDetailProperty: React.FC<EditDetailPropertyProps> = () => {
                 placeholder="Masukan luas tanah"
                 name={field.name}
                 onChange={field.onChange}
+                value={field.value}
                 isInvalid={formState.errors.luasTanah && true}
                 errorMessage={errors?.luasTanah?.message}
               />
@@ -121,6 +131,7 @@ const EditDetailProperty: React.FC<EditDetailPropertyProps> = () => {
                 label={'Luas Bangunan'}
                 placeholder="Masukan luas bangunan"
                 name={field.name}
+                value={field.value}
                 onChange={field.onChange}
                 isInvalid={formState.errors.luasBangunan && true}
                 errorMessage={errors?.luasBangunan?.message}
@@ -145,6 +156,7 @@ const EditDetailProperty: React.FC<EditDetailPropertyProps> = () => {
                       isInvalid={formState.errors.orientasiBangunan && true}
                       placeholder="Pilih orientasi bangunan"
                       onChange={field.onChange}
+                      value={field.value}
                       errorMessage={formState.errors.orientasiBangunan?.message}
                       options={[
                         {
@@ -181,6 +193,7 @@ const EditDetailProperty: React.FC<EditDetailPropertyProps> = () => {
                       placeholder="Pilih tipe serifikat"
                       onChange={field.onChange}
                       errorMessage={formState.errors.tipeRumah?.message}
+                      value={field.value}
                       options={[
                         {
                           label: 'Hak Milik',
