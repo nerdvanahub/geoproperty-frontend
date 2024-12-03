@@ -7,7 +7,26 @@ on:
     branches: [master]
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: asnurramdhani12/geoproperty-fe:production
+
   deploy:
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Deploy Image Using ssh
@@ -18,10 +37,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            cd /home/GeoPropertyServer/geo-property
-            git pull
-            export NVM_DIR=~/.nvm
-            source ~/.nvm/nvm.sh
-            pnpm install
-            pnpm run build
-            systemctl restart geoproperty.service
+            docker pull asnurramdhani12/geoproperty-fe:production
+            docker container stop geoproperty-fe
+            docker rm geoproperty-fe
+            docker run -d -p 4173:4173 --name geoproperty-fe --network geoproperty-network -e VITE_MAPBOX_KEY=${{ secrets.MAPBOX_KEY }} -e VITE_BASE_URL=${{ secrets.BASE_URL }} -e VITE_ENCRYPT_KEY=${{ secrets.ENCRYPT_KEY }} asnurramdhani12/geoproperty-fe:production

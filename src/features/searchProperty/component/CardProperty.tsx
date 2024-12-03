@@ -28,7 +28,7 @@ const CardProperty: FC<CardPropertyProps> = ({ data }) => {
       overflow="hidden"
     >
       <Image
-        src={`https://assets-geoproperty.nerdvana-hub.com/foto/${data.images[0].image}`}
+        src={`https://assets.nerdvana-hub.or.id/property/${data.images[0].image}`}
         alt="property"
         w="full"
         h="60%"

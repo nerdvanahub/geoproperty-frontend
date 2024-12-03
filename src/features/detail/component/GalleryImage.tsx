@@ -1,6 +1,6 @@
-import { Grid, GridItem, Image } from '@chakra-ui/react';
-import { FC } from 'react';
-import useDetailStore from '../store/useDetailStore';
+import { Grid, GridItem, Image } from "@chakra-ui/react";
+import { FC } from "react";
+import useDetailStore from "../store/useDetailStore";
 
 export interface GalleryImageProps {}
 
@@ -11,7 +11,7 @@ const GalleryImage: FC<GalleryImageProps> = () => {
 
   return (
     <Grid
-      templateRows={'repeat(2, 1fr)'}
+      templateRows={"repeat(2, 1fr)"}
       templateColumns="repeat(12, 1fr)"
       gap={4}
       w="full"
@@ -24,7 +24,7 @@ const GalleryImage: FC<GalleryImageProps> = () => {
           key={`${index}-image`}
         >
           <Image
-            src={`https://assets-geoproperty.nerdvana-hub.com/foto/${image}`}
+            src={`https://assets.nerdvana-hub.or.id/property/${image}`}
             objectFit="cover"
             w="full"
             h={index === 0 ? 614 : 300}

@@ -24,7 +24,7 @@ const DetailSeller: FC<DetailSellerProps> = () => {
       <VStack>
         <Avatar
           name={name}
-          src={`https://assets-geoproperty.nerdvana-hub.com/foto/${image}`}
+          src={`https://assets.nerdvana-hub.or.id/property/${image}`}
           size="2xl"
           borderWidth={4}
           borderColor={"blue.500"}
