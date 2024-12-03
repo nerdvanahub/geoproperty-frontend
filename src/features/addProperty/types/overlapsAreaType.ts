@@ -7,3 +7,8 @@ export interface IOverlapsAreaResponse {
   message: string;
   data: IOverlapsCondition;
 }
+
+export interface IOverlapsAreaStore {
+  overlaps: boolean;
+  setOverlaps: (overlaps: boolean) => void;
+}

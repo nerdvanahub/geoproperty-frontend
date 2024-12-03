@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { CustomTextArea } from '../../../../components';
 import useMapStore from '../../../map/store/useMapStore';
 import useAddPropertyStore from '../../store/useAddPropertyStore';
+import useOverlapStore from '../../store/useOverlapStore';
 import DrawMap from '../molecules/DrawMap';
 import SearchAddress from '../molecules/SearchAddress';
 
@@ -15,6 +16,8 @@ const AddAddressProperty: FC<AddAddressPropertyProps> = () => {
     state.centroid,
     state.geometry,
   ]);
+
+  const [overalps] = useOverlapStore((state) => [state.overlaps]);
 
   const setAddress = useAddPropertyStore((state) => state.setAddress);
   const navigate = useNavigate();
@@ -47,7 +50,9 @@ const AddAddressProperty: FC<AddAddressPropertyProps> = () => {
         _hover={{ backgroundColor: gray900, shadow: shadow }}
         rightIcon={<FaChevronRight />}
         onClick={onCLick}
-        isDisabled={centroid![0] === 0 || centroid![1] === 0 || adress === ''}
+        isDisabled={
+          centroid![0] === 0 || centroid![1] === 0 || adress === '' || overalps
+        }
       >
         Tahap selanjutnya
       </Button>
