@@ -24,9 +24,9 @@ jobs:
         with:
           push: true
           build-args: |
-            VITE_MAPBOX_KEY=${{ secrets.MAPBOX_KEY }}
-            VITE_BASE_URL=${{ secrets.BASE_URL }}
-            VITE_ENCRYPT_KEY=${{ secrets.ENCRYPT_KEY }}
+            VITE_MAPBOX_KEY=${{ secrets.VITE_MAPBOX_KEY }}
+            VITE_BASE_URL=${{ secrets.VITE_BASE_URL }}
+            VITE_ENCRYPT_KEY=${{ secrets.VITE_ENCRYPT_KEY }}
           tags: asnurramdhani12/geoproperty-fe:production
 
   deploy:
