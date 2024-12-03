@@ -40,4 +40,4 @@ jobs:
             docker pull asnurramdhani12/geoproperty-fe:production
             docker container stop geoproperty-fe
             docker rm geoproperty-fe
-            docker run -d -p 4173:4173 --name geoproperty-fe --network geoproperty-network -e VITE_MAPBOX_KEY=${{ secrets.MAPBOX_KEY }} -e VITE_BASE_URL=${{ secrets.BASE_URL }} -e VITE_ENCRYPT_KEY=${{ secrets.ENCRYPT_KEY }} asnurramdhani12/geoproperty-fe:production
+            docker run -d -p 5173:5173 --name geoproperty-fe --network geoproperty-network -e VITE_MAPBOX_KEY=${{ secrets.MAPBOX_KEY }} -e VITE_BASE_URL=${{ secrets.BASE_URL }} -e VITE_ENCRYPT_KEY=${{ secrets.ENCRYPT_KEY }} asnurramdhani12/geoproperty-fe:production
