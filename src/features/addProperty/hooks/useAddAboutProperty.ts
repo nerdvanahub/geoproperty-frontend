@@ -1,11 +1,9 @@
-import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { Property } from '../../../types/propertyType';
 import useAddPropertyStore from '../store/useAddPropertyStore';
 import { TAddAboutPropertyForm } from '../types/addPropertyFormType';
 
-const useAddAboutProperty = ({ data }: { data?: Property }) => {
+const useAddAboutProperty = () => {
   const setAboutProperty = useAddPropertyStore(
     (state) => state.setAboutProperty
   );
@@ -16,7 +14,7 @@ const useAddAboutProperty = ({ data }: { data?: Property }) => {
     control,
     watch,
     formState: { errors, isSubmitting },
-    reset,
+    // reset,
   } = useForm<TAddAboutPropertyForm>({
     defaultValues: {
       deskirpsi: '',
@@ -27,15 +25,15 @@ const useAddAboutProperty = ({ data }: { data?: Property }) => {
     },
   });
 
-  useEffect(() => {
-    reset({
-      deskirpsi: data?.description || '',
-      judulIklan: data?.title_ads || '',
-      kondisiProperti: data?.condition || '',
-      tipeIklan: data?.type_ads || '',
-      tipeProperti: data?.type_property || '',
-    });
-  }, [data]);
+  // useEffect(() => {
+  //   reset({
+  //     deskirpsi: data !== undefined ? data.description : '',
+  //     judulIklan: data !== undefined ? data?.title_ads : '',
+  //     kondisiProperti: data !== undefined ? data.condition : '',
+  //     tipeIklan: data !== undefined ? data?.type_ads : '',
+  //     tipeProperti: data !== undefined ? data?.type_property : '',
+  //   });
+  // }, [data]);
 
   const onSubmit = (data: TAddAboutPropertyForm) => {
     setAboutProperty({ ...data });

@@ -1,20 +1,19 @@
 import { useMutation } from '@tanstack/react-query';
-import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { Property } from '../../../types/propertyType';
 import useUserStore from '../../authentication/store/useUserStore';
 import addPropertyService from '../services/addPropertyService';
 import useAddPropertyStore from '../store/useAddPropertyStore';
 import usePhotoStore from '../store/usePhotosStore';
 import { TAddContactPropertyForm } from '../types/addPropertyFormType';
 import { IAddPropertyFieldRequest } from '../types/addPropertyResponse';
-
-const useAddContactProperty = ({
+/* {
   defaultProperty,
 }: {
   defaultProperty?: Property;
-}) => {
+}
+  */
+const useAddContactProperty = () => {
   const property = useAddPropertyStore((state) => state);
   const userId = useUserStore((state) => state.user.id);
   const images = usePhotoStore((state) => state.photos);
@@ -39,7 +38,6 @@ const useAddContactProperty = ({
     control,
     watch,
     formState: { errors },
-    reset,
   } = useForm<TAddContactPropertyForm>({
     defaultValues: {
       email: '',
@@ -49,13 +47,13 @@ const useAddContactProperty = ({
     reValidateMode: 'onBlur',
   });
 
-  useEffect(() => {
-    reset({
-      email: defaultProperty?.email || '',
-      nama: defaultProperty?.full_name || '',
-      nomorHp: defaultProperty?.phone_number || '',
-    });
-  }, [defaultProperty]);
+  // useEffect(() => {
+  //   reset({
+  //     email: defaultProperty ? defaultProperty?.email : '',
+  //     nama: defaultProperty ? defaultProperty?.full_name : '',
+  //     nomorHp: defaultProperty ? defaultProperty?.phone_number : '',
+  //   });
+  // }, [defaultProperty]);
 
   const onSubmit = (data: TAddContactPropertyForm) => {
     setContactProperty({ ...data });

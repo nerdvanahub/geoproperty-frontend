@@ -1,11 +1,14 @@
-import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { Property } from '../../../types/propertyType';
 import useAddPropertyStore from '../store/useAddPropertyStore';
 import { TAddPropertyForm } from '../types/addPropertyFormType';
 
-const useAddDetailProperty = ({ property }: { property?: Property }) => {
+/**
+ *
+ * { property }: { property?: Property }
+ */
+
+const useAddDetailProperty = () => {
   const navigate = useNavigate();
 
   const setDetailProperty = useAddPropertyStore(
@@ -17,7 +20,6 @@ const useAddDetailProperty = ({ property }: { property?: Property }) => {
     handleSubmit,
     watch,
     formState: { errors },
-    reset,
   } = useForm<TAddPropertyForm>({
     defaultValues: {
       luasBangunan: '',
@@ -37,23 +39,27 @@ const useAddDetailProperty = ({ property }: { property?: Property }) => {
     },
   });
 
-  useEffect(() => {
-    reset({
-      luasBangunan: property?.building_area.toString() || '',
-      kamarMandi: property?.bath_rooms.toString() || '',
-      kamarTidur: property?.bed_rooms.toString() || '',
-      jumlahLantai: property?.floors.toString() || '',
-      lahanParkir: property?.park_area.toString() || '',
-      tipeParabot: property?.furniture ? 'tidak perabot' : 'full perabot',
-      dayaListrik: property?.electrical_power.toString() || '',
-      fasilitasProperty: property?.facility_in_door || [''],
-      fasilitaLuarProperty: property?.facility_out_door || [''],
-      hargaJual: property?.price.toString() || '',
-      tipeRumah: property?.type_property || '',
-      luasTanah: property?.surface_area.toString() || '',
-      orientasiBangunan: property?.oriented || '',
-    });
-  }, [property]);
+  // useEffect(() => {
+  //   reset({
+  //     luasBangunan: property ? property.building_area.toString() : '',
+  //     kamarMandi: property ? property.bath_rooms.toString() : '',
+  //     kamarTidur: property ? property.bed_rooms.toString() : '',
+  //     jumlahLantai: property ? property.floors.toString() : '',
+  //     lahanParkir: property ? property.park_area.toString() : '',
+  //     tipeParabot: property
+  //       ? property.furniture
+  //         ? 'tidak perabot'
+  //         : 'full parabot'
+  //       : '',
+  //     dayaListrik: property ? property.electrical_power.toString() : '',
+  //     fasilitasProperty: property ? property.facility_in_door : [''],
+  //     fasilitaLuarProperty: property ? property.facility_out_door : [''],
+  //     hargaJual: property ? property.price.toString() : '',
+  //     tipeRumah: property ? property.type_property : '',
+  //     luasTanah: property ? property.surface_area.toString() : '',
+  //     orientasiBangunan: property ? property.oriented : '',
+  //   });
+  // }, [property]);
 
   const onSubmit = (data: TAddPropertyForm) => {
     setDetailProperty({ ...data });
