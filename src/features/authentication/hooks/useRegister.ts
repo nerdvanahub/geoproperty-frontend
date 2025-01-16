@@ -6,12 +6,18 @@ import { IRegisterUser } from '../type/user-type';
 
 const useRegister = () => {
   const setRegister = useRegisterStateStore((state) => state.setRegister);
+  const [setEmailExist] = useRegisterStateStore((state) => [
+    state.setEmailExist,
+  ]);
 
   const registerMutation = useMutation({
     mutationFn: ({ email, password, name }: IRegisterUser) =>
       authService.register({ email, password, name }),
     onSuccess: () => {
       setRegister(true);
+    },
+    onError: () => {
+      setEmailExist(true);
     },
   });
 

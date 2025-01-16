@@ -2,11 +2,15 @@ import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import decodeJwt from '../../../lib/decodeJwt';
 import authService from '../services/authService';
+import useRegisterStateStore from '../store/useRegisterStateStore';
 import useUserStore from '../store/useUserStore';
 import { ILoginUser, UserInformation } from '../type/user-type';
 
 const useLogin = () => {
   const setLogin = useUserStore((state) => state.setLogin);
+  const [setWrongPassword] = useRegisterStateStore((state) => [
+    state.setWrongPassword,
+  ]);
 
   const loginMutation = useMutation({
     mutationFn: ({ email, password }: ILoginUser) =>
@@ -23,6 +27,9 @@ const useLogin = () => {
           name: decodedJwt?.name || '',
         },
       });
+    },
+    onError: () => {
+      setWrongPassword(true);
     },
   });
 
