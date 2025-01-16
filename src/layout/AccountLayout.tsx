@@ -10,12 +10,12 @@ import {
   Text,
   VStack,
   useToken,
-} from "@chakra-ui/react";
-import React from "react";
-import { IconType } from "react-icons";
-import { FaBullhorn, FaUserCircle } from "react-icons/fa";
-import { NavLink, Outlet } from "react-router-dom";
-import { Navbar } from "../components";
+} from '@chakra-ui/react';
+import React from 'react';
+import { IconType } from 'react-icons';
+import { FaBullhorn, FaUserCircle } from 'react-icons/fa';
+import { NavLink, Outlet } from 'react-router-dom';
+import { Navbar } from '../components';
 
 interface AccountLayoutProps {}
 
@@ -32,17 +32,17 @@ const links: AddPropertyLink[] = [
   //   icon: FaPen,
   // },
   {
-    label: "List Daftar Iklan",
-    to: "/account/list-ads",
+    label: 'List Daftar Iklan',
+    to: '/account/list-ads',
     icon: FaBullhorn,
   },
 ];
 
 const AccountLayout: React.FC<AccountLayoutProps> = () => {
-  const [blue500, blue600, blue50] = useToken("colors", [
-    "blue.500",
-    "blue.600",
-    "blue.50",
+  const [blue500, blue600, blue50] = useToken('colors', [
+    'blue.500',
+    'blue.600',
+    'blue.50',
   ]);
   return (
     <Box w="100%" h="100vh">
@@ -73,7 +73,7 @@ const AccountLayout: React.FC<AccountLayoutProps> = () => {
                 color="blackAlpha.900"
                 fontWeight="medium"
               >
-                Step tambah iklan
+                List Iklan
               </Heading>
               <Icon as={FaUserCircle} w={10} h={10} color="blue.500" />
             </HStack>
@@ -97,11 +97,11 @@ const AccountLayout: React.FC<AccountLayoutProps> = () => {
                   color="blue.500"
                   lineHeight="1.2"
                   cursor="pointer"
-                  _hover={{ textDecoration: "none", backgroundColor: blue50 }}
+                  _hover={{ textDecoration: 'none', backgroundColor: blue50 }}
                   _activeLink={{
-                    textDecoration: "none",
+                    textDecoration: 'none',
                     backgroundColor: blue500,
-                    color: "white",
+                    color: 'white',
                     _hover: { backgroundColor: blue600 },
                   }}
                   end

@@ -1,38 +1,34 @@
 import { Heading, VStack } from '@chakra-ui/react';
 import React from 'react';
-import { Controller } from 'react-hook-form';
+import { Control, Controller, FieldErrors } from 'react-hook-form';
 import { CustomTextArea, CustomTextField } from '../../../components';
 import CustomSelectControl from '../../../components/customFormControl/CustomSelectControl';
 import { Property } from '../../../types/propertyType';
-import useAddAboutProperty from '../../addProperty/hooks/useAddAboutProperty';
 
 interface CommonInformationPropertyProps {
-  property?: Property;
+  control: Control<Property>;
+  errors: FieldErrors<Property>;
 }
 
 const CommonInformationProperty: React.FC<CommonInformationPropertyProps> = ({
-  property,
+  control,
+  errors,
 }) => {
-  const { errors, handleSubmit, onSubmit, control } = useAddAboutProperty({
-    data: property,
-  });
   return (
     <VStack
       w="full"
       alignItems="flex-start"
-      as="form"
       p={8}
       borderWidth={1}
       borderColor="gray.300"
       rounded="lg"
       gap={4}
-      onSubmit={handleSubmit(onSubmit)}
     >
       <Heading size="md" color="blue.500">
         Informasi Umum
       </Heading>
       <Controller
-        name="judulIklan"
+        name="title_ads"
         control={control}
         rules={{ required: true }}
         render={({ field }) => (
@@ -42,20 +38,20 @@ const CommonInformationProperty: React.FC<CommonInformationPropertyProps> = ({
             placeholder="Masukan judul iklan"
             name={field.name}
             onChange={field.onChange}
-            isInvalid={!!errors.judulIklan}
+            isInvalid={!!errors.title_ads}
             value={field.value}
           />
         )}
       />
       <Controller
-        name="tipeIklan"
+        name="type_ads"
         control={control}
         rules={{ required: true }}
         render={({ field }) => (
           <CustomSelectControl
             label={'Tipe Iklan'}
             name={field.name}
-            isInvalid={!!errors.tipeIklan}
+            isInvalid={!!errors.type_ads}
             placeholder="Pilih tipe iklan"
             onChange={field.onChange}
             value={field.value}
@@ -73,14 +69,14 @@ const CommonInformationProperty: React.FC<CommonInformationPropertyProps> = ({
         )}
       />
       <Controller
-        name="kondisiProperti"
+        name="condition"
         control={control}
         rules={{ required: true }}
         render={({ field }) => (
           <CustomSelectControl
             label={'Kondisi Properti'}
             name={field.name}
-            isInvalid={!!errors.kondisiProperti}
+            isInvalid={!!errors.condition}
             placeholder="Pilih kondisi properti"
             onChange={field.onChange}
             value={field.value}
@@ -98,14 +94,14 @@ const CommonInformationProperty: React.FC<CommonInformationPropertyProps> = ({
         )}
       />
       <Controller
-        name="tipeProperti"
+        name="type_property"
         control={control}
         rules={{ required: true }}
         render={({ field }) => (
           <CustomSelectControl
             label={'Tipe Properti'}
             name={field.name}
-            isInvalid={!!errors.kondisiProperti}
+            isInvalid={!!errors.type_property}
             placeholder="Pilih tipe properti"
             onChange={field.onChange}
             value={field.value}
@@ -123,7 +119,7 @@ const CommonInformationProperty: React.FC<CommonInformationPropertyProps> = ({
         )}
       />
       <Controller
-        name="deskirpsi"
+        name="description"
         control={control}
         rules={{ required: true }}
         render={({ field }) => (
@@ -132,7 +128,7 @@ const CommonInformationProperty: React.FC<CommonInformationPropertyProps> = ({
             placeholder="Masukkan deskripsi tentang properti yang Anda jual"
             name={field.name}
             onChange={field.onChange}
-            isInvalid={!!errors.judulIklan}
+            isInvalid={!!errors.description}
             value={field.value}
           />
         )}

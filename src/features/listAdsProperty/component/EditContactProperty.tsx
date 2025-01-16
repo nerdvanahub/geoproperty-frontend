@@ -1,31 +1,27 @@
 import { Heading, Text, VStack } from '@chakra-ui/react';
 import React from 'react';
-import { Controller } from 'react-hook-form';
+import { Control, Controller, FieldErrors } from 'react-hook-form';
 import { CustomTextField } from '../../../components';
-import { Property } from '../../../types/propertyType';
-import useAddContactProperty from '../../addProperty/hooks/useAddContactProperty';
+
+import { Property } from '../types';
 
 interface EditContactPropertyProps {
-  property?: Property;
+  control: Control<Property>;
+  errors: FieldErrors<Property>;
 }
 
 const EditContactProperty: React.FC<EditContactPropertyProps> = ({
-  property,
+  control,
 }) => {
-  const { handleSubmit, onSubmit, control } = useAddContactProperty({
-    defaultProperty: property,
-  });
   return (
     <VStack
       w="full"
       alignItems="flex-end"
-      as="form"
       p={8}
       borderWidth={1}
       borderColor="gray.300"
       rounded="lg"
       gap={4}
-      onSubmit={handleSubmit(onSubmit)}
     >
       <VStack alignItems="flex-start" w="full">
         <Heading as="h2" color="blue.500" size="md">
@@ -33,7 +29,7 @@ const EditContactProperty: React.FC<EditContactPropertyProps> = ({
         </Heading>
       </VStack>
       <Controller
-        name="nama"
+        name="full_name"
         control={control}
         rules={{ required: true }}
         render={({ field, fieldState }) => (
@@ -65,7 +61,7 @@ const EditContactProperty: React.FC<EditContactPropertyProps> = ({
         )}
       />
       <Controller
-        name="nomorHp"
+        name="phone_number"
         control={control}
         rules={{ required: true }}
         render={({ field, fieldState }) => (

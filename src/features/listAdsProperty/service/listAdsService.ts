@@ -3,10 +3,10 @@ import axiosIntance from '../../../lib/axios';
 import {
   IPropertyListResponse,
   IPropertyResponse,
-  Property,
 } from '../../../types/propertyType';
 import useUserStore from '../../authentication/store/useUserStore';
 import { IPOIResponse } from '../../detail/types/poiType';
+import { Property as UpdatedProperty } from '../types';
 
 class ListAddsService {
   axiosIntance: AxiosInstance;
@@ -29,12 +29,28 @@ class ListAddsService {
     return response.data;
   }
 
-  public async editAds(property: Property): Promise<IPropertyListResponse> {
+  public async editAds(
+    property: UpdatedProperty
+  ): Promise<IPropertyListResponse> {
     const formData = new FormData();
-    formData.append('data', JSON.stringify(property));
+    formData.append(
+      'data',
+      JSON.stringify({
+        ...property,
+        furniture: property.furniture === 'full perabot',
+        bath_rooms: parseInt(property.bath_rooms.toString()),
+        bed_rooms: parseInt(property.bed_rooms.toString()),
+        floors: parseInt(property.floors.toString()),
+        park_area: parseInt(property.park_area.toString()),
+        electrical_power: parseInt(property.electrical_power.toString()),
+        surface_area: parseInt(property.surface_area.toString()),
+        building_area: parseInt(property.building_area.toString()),
+        price: parseInt(property.price.toString()),
+      })
+    );
 
     const response = await this.axiosIntance.put<IPropertyListResponse>(
-      'property/own',
+      'property/' + property.id,
       formData,
       {
         headers: {

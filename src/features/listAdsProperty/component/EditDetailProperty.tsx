@@ -1,22 +1,21 @@
 import { Grid, GridItem, HStack, Heading, VStack } from '@chakra-ui/react';
 import React from 'react';
-import { Controller } from 'react-hook-form';
+import { Control, Controller, FieldErrors } from 'react-hook-form';
 import { CustomTextField } from '../../../components';
 import CustomSelectControl from '../../../components/customFormControl/CustomSelectControl';
-import { Property } from '../../../types/propertyType';
-import CommonInputProperty from '../../addProperty/component/organisms/CommonInputProperty';
-import useAddDetailProperty from '../../addProperty/hooks/useAddDetailProperty';
+
+import { Property } from '../types';
+import CommonInputProperty from './CommonInputProperty';
 
 interface EditDetailPropertyProps {
-  property?: Property;
+  control: Control<Property>;
+  errors: FieldErrors<Property>;
 }
 
 const EditDetailProperty: React.FC<EditDetailPropertyProps> = ({
-  property,
+  control,
+  errors,
 }) => {
-  const { control, errors, handleSubmit, onSubmit } = useAddDetailProperty({
-    property,
-  });
   return (
     <VStack
       w="full"
@@ -34,45 +33,39 @@ const EditDetailProperty: React.FC<EditDetailPropertyProps> = ({
           </Heading>
         </HStack>
       </VStack>
-      <Grid
-        templateColumns="repeat(2, 1fr)"
-        w="full"
-        as="form"
-        onSubmit={handleSubmit(onSubmit)}
-        gap={4}
-      >
+      <Grid templateColumns="repeat(2, 1fr)" w="full" as="form" gap={4}>
         <GridItem colSpan={2}>
           <Controller
-            name="hargaJual"
+            name="price"
             control={control}
             rules={{ required: true }}
-            render={({ field, formState }) => (
+            render={({ field }) => (
               <CustomTextField
                 type={'text'}
                 label={'Harga Jual'}
                 placeholder="Masukan nominal"
                 name={field.name}
                 onChange={field.onChange}
-                isInvalid={formState.errors.hargaJual && true}
-                errorMessage={errors?.hargaJual?.message}
-                value={field.value}
+                isInvalid={errors.price && true}
+                errorMessage={errors?.price?.message}
+                value={field.value === undefined ? '0' : field.value.toString()}
               />
             )}
           />
         </GridItem>
         <GridItem colSpan={2}>
           <Controller
-            name="tipeRumah"
+            name="building_type"
             control={control}
             rules={{ required: true }}
-            render={({ field, formState }) => (
+            render={({ field }) => (
               <CustomSelectControl
                 label={'Tipe Rumah'}
                 name={field.name}
-                isInvalid={formState.errors.tipeRumah && true}
+                isInvalid={errors.building_type && true}
                 placeholder="Pilih tipe rumah"
                 onChange={field.onChange}
-                errorMessage={formState.errors.tipeRumah?.message}
+                errorMessage={errors.building_type?.message}
                 value={field.value}
                 options={[
                   {
@@ -103,38 +96,38 @@ const EditDetailProperty: React.FC<EditDetailPropertyProps> = ({
 
         <GridItem>
           <Controller
-            name="luasTanah"
+            name="surface_area"
             control={control}
             rules={{ required: true }}
-            render={({ field, formState }) => (
+            render={({ field }) => (
               <CustomTextField
                 type={'text'}
                 label={'Luas Tanah'}
                 placeholder="Masukan luas tanah"
                 name={field.name}
                 onChange={field.onChange}
-                value={field.value}
-                isInvalid={formState.errors.luasTanah && true}
-                errorMessage={errors?.luasTanah?.message}
+                value={field.value === undefined ? '0' : field.value.toString()}
+                isInvalid={errors.surface_area && true}
+                errorMessage={errors?.surface_area?.message}
               />
             )}
           />
         </GridItem>
         <GridItem>
           <Controller
-            name="luasBangunan"
+            name="building_area"
             control={control}
             rules={{ required: true }}
-            render={({ field, formState }) => (
+            render={({ field }) => (
               <CustomTextField
                 type={'text'}
                 label={'Luas Bangunan'}
                 placeholder="Masukan luas bangunan"
                 name={field.name}
-                value={field.value}
+                value={field.value === undefined ? '0' : field.value.toString()}
                 onChange={field.onChange}
-                isInvalid={formState.errors.luasBangunan && true}
-                errorMessage={errors?.luasBangunan?.message}
+                isInvalid={errors.building_area && true}
+                errorMessage={errors?.building_area?.message}
               />
             )}
           />
@@ -142,22 +135,23 @@ const EditDetailProperty: React.FC<EditDetailPropertyProps> = ({
 
         <CommonInputProperty
           control={control}
+          errors={errors}
           bottomSection={
             <>
               <GridItem colSpan={2}>
                 <Controller
-                  name="orientasiBangunan"
+                  name="oriented"
                   control={control}
                   rules={{ required: true }}
-                  render={({ field, formState }) => (
+                  render={({ field }) => (
                     <CustomSelectControl
                       label={'Orientasi Bangunan'}
                       name={field.name}
-                      isInvalid={formState.errors.orientasiBangunan && true}
+                      isInvalid={errors.oriented && true}
                       placeholder="Pilih orientasi bangunan"
                       onChange={field.onChange}
                       value={field.value}
-                      errorMessage={formState.errors.orientasiBangunan?.message}
+                      errorMessage={errors.oriented?.message}
                       options={[
                         {
                           label: 'Barat',
@@ -174,42 +168,6 @@ const EditDetailProperty: React.FC<EditDetailPropertyProps> = ({
                         {
                           label: 'Selatan',
                           value: 'selatan',
-                        },
-                      ]}
-                    />
-                  )}
-                />
-              </GridItem>
-              <GridItem colSpan={2}>
-                <Controller
-                  name="tipeSertifikat"
-                  control={control}
-                  rules={{ required: true }}
-                  render={({ field, formState }) => (
-                    <CustomSelectControl
-                      label={'Tipe Sertifikat'}
-                      name={field.name}
-                      isInvalid={formState.errors.tipeRumah && true}
-                      placeholder="Pilih tipe serifikat"
-                      onChange={field.onChange}
-                      errorMessage={formState.errors.tipeRumah?.message}
-                      value={field.value}
-                      options={[
-                        {
-                          label: 'Hak Milik',
-                          value: 'hak milik',
-                        },
-                        {
-                          label: 'Hak Guna Usaha',
-                          value: 'hak guna usaha',
-                        },
-                        {
-                          label: 'Hak Guna Bangunan',
-                          value: 'hak guna bangunan',
-                        },
-                        {
-                          label: 'Hak Pakai',
-                          value: 'hak pakai',
                         },
                       ]}
                     />
