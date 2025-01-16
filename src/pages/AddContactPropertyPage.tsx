@@ -1,10 +1,22 @@
 import { Heading, Text, VStack } from '@chakra-ui/react';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AddContactProperty } from '../features/addProperty';
+import usePhotoStore from '../features/addProperty/store/usePhotosStore';
 
 interface AddContactPropertyPageProps {}
 
 const AddContactPropertyPage: React.FC<AddContactPropertyPageProps> = () => {
+  const [images] = usePhotoStore((state) => [state.photos]);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (images.length === 0) {
+      navigate('/add-property/image-property', { replace: true });
+    }
+  }, [images]);
+
   return (
     <VStack w="full" alignItems="flex-start" gap={10}>
       <VStack alignItems="flex-start" w="full">

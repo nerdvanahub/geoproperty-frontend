@@ -26,13 +26,7 @@ import { IoClose } from 'react-icons/io5';
 import { Link as RouterLink } from 'react-router-dom';
 import usePhotoStore from '../../store/usePhotosStore';
 
-interface AddImagePropertyProps {
-  hiddenButton?: boolean;
-}
-
-const AddImageProperty: React.FC<AddImagePropertyProps> = ({
-  hiddenButton = false,
-}) => {
+const AddImageProperty: React.FC = () => {
   const [images, setImages, removePhoto, resetPhoto] = usePhotoStore(
     (state) => [
       state.photos,
@@ -46,6 +40,12 @@ const AddImageProperty: React.FC<AddImagePropertyProps> = ({
     onDrop: (acceptedFiles) => {
       setImages(acceptedFiles);
     },
+    accept: {
+      'image/*': ['.png', '.jpeg', '.jpg'],
+    },
+    maxSize: 5000000,
+    disabled: images.length === 5,
+    maxFiles: 5,
   });
   const removeFile = (file: File) => () => {
     removePhoto(file);
@@ -125,14 +125,26 @@ const AddImageProperty: React.FC<AddImagePropertyProps> = ({
         Anda dapat mengunggah maximal 5 foto properti dan gunakan file dalam
         bentuk jpg dan jpeg
       </Alert>
-      {hiddenButton ? null : (
+      {images.length === 0 ? (
+        <Button
+          bg="gray.800"
+          color="white"
+          _hover={{ backgroundColor: gray900, shadow: shadow }}
+          rightIcon={<FaChevronRight />}
+          isDisabled={images.length === 0}
+          disabled={images.length === 0}
+        >
+          Tahap selanjutnya
+        </Button>
+      ) : (
         <Button
           as={RouterLink}
           bg="gray.800"
           color="white"
           _hover={{ backgroundColor: gray900, shadow: shadow }}
           rightIcon={<FaChevronRight />}
-          isDisabled={images.length !== 5}
+          isDisabled={images.length === 0}
+          disabled={images.length === 0}
           to="/add-property/contact-property"
         >
           Tahap selanjutnya
